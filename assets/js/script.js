@@ -1,12 +1,16 @@
+var startButton = document.getElementById("start-button");
+
 
 //saved questions/answers
 
 
 //quiz start function
-
-//timer function
 //countdown function
 //display current time on screen
+
+
+//quiz round function
+//populate screen with questions
 //subtract time if feedback from wrong question
 
 

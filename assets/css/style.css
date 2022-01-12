@@ -1,0 +1,71 @@
+/* general */
+
+:root {
+    --color1: #03254c;
+    --color2: #2a9df4;
+    --color3: #d0efff;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+}
+
+.flex {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/* buttons */
+
+.button {
+    background-color: var(--color1);
+    color: var(--color3);
+    border-radius: 15px;
+}
+
+/* header */
+
+header {
+    justify-content: space-between;
+    padding: 20px 40px;
+}
+
+#high-scores-link {
+    color: var(--color2);
+}
+
+#high-scores-link:hover {
+    color: var(--color1);
+    cursor: pointer;
+}
+
+#timer {
+    font-weight: bold;
+}
+
+/* initial body display */
+
+#main-content {
+    width: 100%;
+}
+
+#initial-content {
+    width:100%;
+    text-align: center;
+    justify-content: center;
+}
+
+#initial-content h2 {
+    font-size: 30px;
+    width: 100%;
+}
+
+#initial-content p {
+    width: 100%;
+    line-height: 1.5;
+}
+
+#start-button {
+    padding: 10px 50px;
+}
