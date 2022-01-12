@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link type="stylesheet" href="./assets/css/style.css">
+    <title>Coding Quiz</title>
+</head>
+<body>
+    <!--header to display time and link for high score-->
+    <header class="flex">
+        <span id="high-scores-link">View high scores</span>
+        <span id="timer">Time: --</span>
+    </header>
+    <!--main body to be dynamically populated with questions/answers/highscores/question answer feedback as required-->
+    <main class="flex">
+        <section id="main-content">
+            <div id="initial-content" class="flex">
+                <h2>Coding Quiz</h2>
+                <p>Welcome to this Coding Quiz Challenge!  Please press the button below to begin.  You will start with 75 seconds and 15 seconds will be deducted for every incorrect answer.</p>
+                <p class="button">Start</p>
+            </div>
+        </section>
+        <section id="question-feedback"></section>
+    </main>
+    <script src="./assets/js/script.js"></script>
+</body>
+</html>
