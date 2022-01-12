@@ -24,6 +24,11 @@ body {
     border-radius: 15px;
 }
 
+.button:hover {
+    background-color: var(--color2);
+    cursor: pointer;
+}
+
 /* header */
 
 header {
