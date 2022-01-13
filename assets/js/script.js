@@ -34,7 +34,7 @@ var quizStart = function(){
     initialContent.setAttribute("style","display:none");
 
     //countdown function
-    countdown = setInterval(() => {
+    var countdown = setInterval(() => {
         //display current time on screen
         let timerDisplay = document.getElementById("timer");
         timerDisplay.textContent = "Time: " + timer;
@@ -87,12 +87,15 @@ var quizRoundStart = function(roundNumber){
 var answerCheck = function(event) {
     //evaluate if answer is correct
     let answer = event.target.getAttribute("button-id");
+    let answerFeedback = document.getElementById("question-feedback-h2");
     if(answer==questions[roundIndex][1]){
         console.log("Correct answer");
+        answerFeedback.textContent = "Correct!";
     }
      //subtract time if feedback from wrong question
      else if(answer != null){
          console.log("Wrong answer");
+         answerFeedback.textContent = "Wrong!";
          timer-= 15;
          if(timer<0){
              timer = 0;
@@ -103,10 +106,15 @@ var answerCheck = function(event) {
      }
      //continue game if timer is above 0
      if(timer>0){
+         let feedbackSection = document.getElementById("question-feedback");
+         feedbackSection.setAttribute("style","display:inline")
          roundReset();
          roundIndex++;
          if(roundIndex < questions.length){
              quizRoundStart(roundIndex);
+         }
+         else{
+             quizWin();
          }
      }
 }
@@ -121,9 +129,12 @@ var roundReset = function(){
 //reset game function
 var quizReset = function(){
     timer = 75;
+    roundIndex = 0;
     initialContent.setAttribute("style","display:flex");
     let roundContent = document.querySelector(".round-container");
-    roundContent.remove();
+    if(roundContent != null){
+        roundContent.remove();
+    }
 }
 
 //quiz lose function
@@ -134,12 +145,73 @@ var quizLose = function(){
 
 //quiz win function
 var quizWin = function(){
+    clearInterval(countdown);
     console.log("Quiz has ended");
-    quizReset();
+
+    //Create end game screen
+    let roundContent = document.createElement("div");
+    roundContent.className = "flex content-container round-container";
+    mainContent.appendChild(roundContent);
+
+    //create heading
+    let endHeader = document.createElement("h2");
+    endHeader.textContent = "Congratulations!";
+    roundContent.appendChild(endHeader);
+
+    //create message
+    let endMessage = document.createElement("p");
+    endMessage.textContent = "You have completed the quiz with a score of " + (timer+1) + "!";
+    endMessage.className = "end-message";
+    roundContent.appendChild(endMessage);
+
+    //create input 
+    let inputForm = document.createElement("form");
+    inputForm.className = "flex highscore-form";
+    let inputLabel = document.createElement("label");
+    inputLabel.setAttribute("for", "name");
+    inputLabel.textContent = "Please enter your intials:"
+    let inputArea = document.createElement("input");
+    inputArea.setAttribute("type", "text");
+    inputArea.setAttribute("name", "name");
+    inputArea.setAttribute("id","name");
+    let inputSubmit = document.createElement("span");
+    inputSubmit.className = "button";
+    inputSubmit.textContent = "Submit";
+    inputForm.appendChild(inputLabel);
+    inputForm.appendChild(inputArea);
+    inputForm.appendChild(inputSubmit);
+    roundContent.appendChild(inputForm);
+
+    //event listeners for input
+    inputForm.addEventListener("submit",highscoreCheck);
+    inputSubmit.addEventListener("click",highscoreCheck);
+}
+
+//check highscore input function
+
+var highscoreCheck = function(event) {
+    event.preventDefault();
+    let letters = /^[A-Za-z]+$/;
+    let inputName = document.getElementById("name").value;
+    if(inputName!="" && inputName!= null && inputName.match(letters) && inputName.length <= 3){
+        inputName = inputName.toUpperCase();
+        console.log(inputName);
+        highScoreSubmit(inputName);
+    }
+    else{
+        alert("Invalid input!  Please enter a valid input.  Input must not be blank, and must contain up to 3 letters.")
+    }
+}
+
+//highscore submit function
+var highScoreSubmit = function (username) {
+
 }
 
 //highscore click function
 var highScoresLoad = function() {
+    clearInterval(countdown);
+    roundReset();
     console.log("High scores clicked");
 };
 
