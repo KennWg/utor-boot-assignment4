@@ -150,9 +150,8 @@ var quizReset = function(){
 
 //quiz lose function
 var quizLose = function(){
-    if(confirm("You ran out of time! Try again?")){
-        quizReset();
-    }
+    alert("Oops! You ran out of time!")
+    quizReset();
 }
 
 //quiz win function
