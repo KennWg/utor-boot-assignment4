@@ -1,4 +1,4 @@
-var timer = 10,
+var timer = 75,
     roundIndex = 0,
     startButton = document.getElementById("start-button"),
     mainContent = document.getElementById("main-content"),
@@ -12,7 +12,7 @@ var questions = [
         ["1. 0","2. '0'","3. null", "4. NaN"]
     ],
     ["What should arrays be enclosed by?",4,
-        ["1. ' '","2. ()","3. / /","4. []"]
+        ["1. ' '","2. ( )","3. / /","4. [ ]"]
     ],
     ["What would be most useful to turn an user's input from a string to an integer?",4,
         ["1. .stringify()","2. .integer()","3. .parse()","4. .parseInt()"]
@@ -21,7 +21,7 @@ var questions = [
         ["1. style","2. string","3. boolean", "4. null"]
     ],
     ["In JavaScript, what is a code block enclosed by?",3,
-        ["1. ' '", "2. ()", "3. {}", "4. []"]
+        ["1. ' '", "2. ( )", "3. { }", "4. [ ]"]
     ],
     ["Which of the following are you not able to store in an array?",4,
         ["1. arrays", "2. objects", "3. booleans", "4. None of the above"]
@@ -65,7 +65,6 @@ var quizRoundStart = function(roundNumber){
     //create heading
     let roundh2 = document.createElement("h2");
     roundh2.textContent = roundInfo[0];
-    roundh2.className = "question";
     roundContent.appendChild(roundh2);
 
     //create buttons
@@ -92,12 +91,15 @@ var answerCheck = function(event) {
         console.log("Correct answer");
     }
      //subtract time if feedback from wrong question
-     else{
+     else if(answer != null){
          console.log("Wrong answer");
          timer-= 15;
          if(timer<0){
              timer = 0;
          }
+     }
+     else{
+         return false;
      }
      //continue game if timer is above 0
      if(timer>0){
@@ -116,9 +118,9 @@ var roundReset = function(){
 };
 
 
-//reset function
+//reset game function
 var quizReset = function(){
-    timer = 10;
+    timer = 75;
     initialContent.setAttribute("style","display:flex");
     let roundContent = document.querySelector(".round-container");
     roundContent.remove();
@@ -150,7 +152,9 @@ var highScoresLoad = function() {
 //onclick event listeners
 
 highScoreButton.addEventListener("click", highScoresLoad);
-initialContent.addEventListener("click", function() {
+initialContent.addEventListener("click", function(event) {
+    if(event.target.matches("#start-button")){
     console.log("Start button clicked");
     quizStart();
+    }
 });
