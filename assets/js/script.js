@@ -1,5 +1,6 @@
-var mainContent = document.getElementById("main-content"),
+var timer = 10,
     startButton = document.getElementById("start-button"),
+    initialContent = document.getElementById("initial-content"),
     highScoreButton = document.getElementById("high-scores-link");
 
 
@@ -25,25 +26,84 @@ var questions = [
     ]
 ];
 
-//button handler
-var buttonHandler = function(event) {
-    if(event.target.matches("#start-button")){
-        console.log("Start button clicked");
-    }
-};
-
 //quiz start function
-//countdown function
-//display current time on screen
+var quizStart = function(){
+    //hide current text
+    initialContent.setAttribute("style","display:none");
+
+    //countdown function
+    countdown = setInterval(() => {
+        timer--;
+        console.log(timer);
+        //display current time on screen
+        let timerDisplay = document.getElementById("timer");
+        timerDisplay.textContent = "Time: " + timer;
+
+        if(timer<=0){
+            clearInterval(countdown);
+            quizLose();
+        }
+    }, 1000);
+
+    //call round functions
+    for(let i = 0; i < questions.length && timer > 0; i++){
+        quizRound(i);
+        //end quiz if final round
+        if(timer > 0 && i+1 === questions.length){
+            quizWin();
+        }
+    }
+    
+}
+
 
 
 //quiz round function
-//populate screen with questions
-//subtract time if feedback from wrong question
+var quizRound = function(roundNumber){
+    let roundInfo = questions[roundNumber];
+    
+    //populate screen with questions
+    //create container
+    let roundContent = document.createElement("div");
+    roundContent.className = "flex content-container";
+
+    //create heading
+    let roundh2 = document.createElement("h2");
+    roundh2.textContent = roundInfo[0];
+    roundContent.appendChild(roundh2);
+
+    //create buttons
+    for(let i = 0; i < 4; i++){
+        answerButton = document.createElement("span");
+        answerButton.className = "button answer-button"
+        answerButton.setAttribute("button-id", i+1);
+        roundContent.appendChild(answerButton);
+    }
+
+    //evaluate if answer is correct
+    
+
+    //subtract time if feedback from wrong question
+}
 
 
-//quiz end function
+//reset function
+var quizReset = function(){
+    timer = 10;
+    initialContent.setAttribute("style","display:flex");
+}
 
+//quiz lose function
+var quizLose = function(){
+    console.log("You have lost!")
+    quizReset();
+}
+
+//quiz win function
+var quizWin = function(){
+    console.log("Quiz has ended");
+    quizReset();
+}
 
 //highscore click function
 var highScoresLoad = function() {
@@ -59,4 +119,7 @@ var highScoresLoad = function() {
 //onclick event listeners
 
 highScoreButton.addEventListener("click", highScoresLoad);
-mainContent.addEventListener("click", buttonHandler);
+initialContent.addEventListener("click", function() {
+    console.log("Start button clicked");
+    quizStart();
+});

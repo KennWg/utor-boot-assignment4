@@ -22,6 +22,8 @@ body {
     background-color: var(--color1);
     color: var(--color3);
     border-radius: 15px;
+    width: 15%;
+    display: block;
 }
 
 .button:hover {
@@ -55,13 +57,13 @@ header {
     width: 100%;
 }
 
-#initial-content {
+.content-container {
     width:100%;
     text-align: center;
     justify-content: center;
 }
 
-#initial-content h2 {
+.content-container h2 {
     font-size: 30px;
     width: 100%;
 }
@@ -73,4 +75,5 @@ header {
 
 #start-button {
     padding: 10px 50px;
+    width: 10%;
 }
