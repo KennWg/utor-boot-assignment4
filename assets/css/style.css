@@ -150,4 +150,8 @@ main {
     li {
         font-size: 15px;
     }
+
+    .highScoreList {
+        width: 60%;
+    }
 }
