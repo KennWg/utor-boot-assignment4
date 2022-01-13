@@ -139,6 +139,9 @@ main {
         width: 25%;
     }
 
+    .highScoreList {
+        width: 60%;
+    }
 }
 
 @media (max-width:575px){
@@ -150,8 +153,5 @@ main {
     li {
         font-size: 15px;
     }
-
-    .highScoreList {
-        width: 60%;
-    }
 }
+    
