@@ -1,5 +1,7 @@
 var timer = 10,
+    roundIndex = 0,
     startButton = document.getElementById("start-button"),
+    mainContent = document.getElementById("main-content"),
     initialContent = document.getElementById("initial-content"),
     highScoreButton = document.getElementById("high-scores-link");
 
@@ -33,8 +35,6 @@ var quizStart = function(){
 
     //countdown function
     countdown = setInterval(() => {
-        timer--;
-        console.log(timer);
         //display current time on screen
         let timerDisplay = document.getElementById("timer");
         timerDisplay.textContent = "Time: " + timer;
@@ -43,54 +43,85 @@ var quizStart = function(){
             clearInterval(countdown);
             quizLose();
         }
+        timer--;
     }, 1000);
 
-    //call round functions
-    for(let i = 0; i < questions.length && timer > 0; i++){
-        quizRound(i);
-        //end quiz if final round
-        if(timer > 0 && i+1 === questions.length){
-            quizWin();
-        }
+    //call first round function
+    if(timer > 0 && roundIndex < questions.length){
+        quizRoundStart(roundIndex);
     }
-    
 }
 
-
-
 //quiz round function
-var quizRound = function(roundNumber){
+var quizRoundStart = function(roundNumber){
     let roundInfo = questions[roundNumber];
     
     //populate screen with questions
     //create container
     let roundContent = document.createElement("div");
-    roundContent.className = "flex content-container";
+    roundContent.className = "flex content-container round-container";
+    mainContent.appendChild(roundContent);
 
     //create heading
     let roundh2 = document.createElement("h2");
     roundh2.textContent = roundInfo[0];
+    roundh2.className = "question";
     roundContent.appendChild(roundh2);
 
     //create buttons
     for(let i = 0; i < 4; i++){
-        answerButton = document.createElement("span");
+        let answerWrapper = document.createElement("div");
+        answerWrapper.className = "answer-wrapper flex";
+        let answerButton = document.createElement("span");
         answerButton.className = "button answer-button"
+        answerButton.textContent = roundInfo[2][i];
         answerButton.setAttribute("button-id", i+1);
-        roundContent.appendChild(answerButton);
+        answerWrapper.appendChild(answerButton);
+        roundContent.appendChild(answerWrapper);
     }
 
-    //evaluate if answer is correct
-    
-
-    //subtract time if feedback from wrong question
+    //add event listener
+    roundContent.addEventListener("click", answerCheck);
 }
+
+//Answer Evaluation function
+var answerCheck = function(event) {
+    //evaluate if answer is correct
+    let answer = event.target.getAttribute("button-id");
+    if(answer==questions[roundIndex][1]){
+        console.log("Correct answer");
+    }
+     //subtract time if feedback from wrong question
+     else{
+         console.log("Wrong answer");
+         timer-= 15;
+         if(timer<0){
+             timer = 0;
+         }
+     }
+     //continue game if timer is above 0
+     if(timer>0){
+         roundReset();
+         roundIndex++;
+         if(roundIndex < questions.length){
+             quizRoundStart(roundIndex);
+         }
+     }
+}
+
+//reset round
+var roundReset = function(){
+    let roundContent = document.querySelector(".round-container");
+    roundContent.remove();
+};
 
 
 //reset function
 var quizReset = function(){
     timer = 10;
     initialContent.setAttribute("style","display:flex");
+    let roundContent = document.querySelector(".round-container");
+    roundContent.remove();
 }
 
 //quiz lose function
